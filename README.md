@@ -33,7 +33,6 @@ It is built with:
 | Backend   | https://your-backend-url.onrender.com       |
 | Health    | `GET /health` → `{ "status": "ok" }`        |
 
-> ⚠️ If your backend uses a different domain, update the table accordingly.
 
 ---
 
@@ -358,7 +357,6 @@ Built with ❤️ and AI.
 Maintained by **Your Name**.
 
 ````
-```bash
 git add README.md
 git commit -m "Add project README"
 git push
