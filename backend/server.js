@@ -13,8 +13,13 @@ const queryRoutes = require("./routes/queries");
 dotenv.config();
 
 const app = express();
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://document-db.vercel.app'],
+    credentials: true,
+  })
+);
 
-app.use(cors());
 app.use(express.json());
 
 // Test route
