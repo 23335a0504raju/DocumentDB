@@ -60,12 +60,12 @@ function Documents() {
   };
 
   const handlePreview = (doc) => {
-    const url = `https://document-db.vercel.app/uploads/${doc.storedFilename}`;
+    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleDownload = (doc) => {
-    const url = `https://document-db.vercel.app/uploads/${doc.storedFilename}`;
+    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

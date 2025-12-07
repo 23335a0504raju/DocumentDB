@@ -62,12 +62,12 @@ function DocumentList() {
 
   const handlePreview = (doc) => {
     // Backend must serve /uploads as static (e.g. app.use('/uploads', express.static('uploads'))
-    const url = `http://localhost:5000/uploads/${doc.storedFilename}`;
+    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleDownload = (doc) => {
-    const url = `http://localhost:5000/uploads/${doc.storedFilename}`;
+    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
     // Simple way: open in new tab, user can Save As
     window.open(url, '_blank', 'noopener,noreferrer');
   };
