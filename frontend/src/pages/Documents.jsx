@@ -59,16 +59,21 @@ function Documents() {
     return new Date(isoString).toISOString().slice(0, 10); // YYYY-MM-DD
   };
 
+
+const backendBaseURL = (api.defaults?.baseURL || '').replace(/\/$/, '');
+
+  const buildFileUrl = (doc) =>
+    `${backendBaseURL}/uploads/${doc.storedFilename}`;
+
   const handlePreview = (doc) => {
-    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
+    const url = buildFileUrl(doc);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleDownload = (doc) => {
-    const url = `https://documentdb.onrender.com/uploads/${doc.storedFilename}`;
+    const url = buildFileUrl(doc);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
-
   // 🔥 NEW: delete document
   const handleDelete = async (doc) => {
     if (!window.confirm(`Delete "${doc.originalName}"? This cannot be undone.`)) {
