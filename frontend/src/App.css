@@ -1,0 +1,186 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #3f51b5;
+  --primary-light: #757de8;
+  --primary-dark: #002984;
+  --secondary-color: #f50057;
+  --light-bg: #f5f5f5;
+  --dark-bg: #1a237e;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --border-color: #e0e0e0;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 250px;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    padding: 15px;
+  }
+}
+
+/* Utility Classes */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: #d5d5d5;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: var(--error);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  border-left: 4px solid var(--error);
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: var(--success);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  border-left: 4px solid var(--success);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+.app {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-top: 64px; /* Header height */
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 250px;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    padding: 15px;
+    margin-left: 0;
+  }
+}
