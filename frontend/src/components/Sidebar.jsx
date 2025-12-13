@@ -19,6 +19,7 @@ function Sidebar({ isOpen, onClose }) {
     { path: '/documents', icon: '📄', label: 'Documents' },
     { path: '/history', icon: '🕒', label: 'Query History' },
     { path: '/profile', icon: '👤', label: 'Profile' },
+  
   ];
 
   const handleNavigation = (path) => {
