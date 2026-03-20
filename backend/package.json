@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@huggingface/inference": "^4.13.4",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",

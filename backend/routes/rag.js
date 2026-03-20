@@ -3,10 +3,12 @@ const express = require("express");
 const authMiddleware = require("../middleware/auth");
 const { queryUserDocuments } = require("../services/ragService");
 const Query = require("../models/Query");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const router = express.Router();
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+// ✅ Initialize Gemini 2.0 Flash client
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // POST /rag/query
 // Only returns top matching chunks (no LLM)
@@ -44,7 +46,7 @@ router.post("/query", authMiddleware, async (req, res) => {
 });
 
 // POST /rag/answer
-// Full RAG: retrieve docs + call OpenRouter + save query in DB
+// Full RAG: retrieve docs + call Gemini 2.0 Flash + save query in DB
 router.post("/answer", authMiddleware, async (req, res) => {
   try {
     const { question, documentId } = req.body;
@@ -53,9 +55,9 @@ router.post("/answer", authMiddleware, async (req, res) => {
       return res.status(400).json({ message: "Question is required" });
     }
 
-    if (!OPENROUTER_API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({
-        message: "OPENROUTER_API_KEY is not set in environment variables",
+        message: "GEMINI_API_KEY is not set in environment variables",
       });
     }
 
@@ -75,8 +77,7 @@ router.post("/answer", authMiddleware, async (req, res) => {
       });
     }
 
-
-    // 2) Build context text for the LLM
+    // 2) Build context text for Gemini
     const contextText = results
       .map((doc, i) => {
         const sourceName = doc.metadata?.originalName || `Document ${i + 1}`;
@@ -84,8 +85,7 @@ router.post("/answer", authMiddleware, async (req, res) => {
       })
       .join("\n\n----------------\n\n");
 
-    const prompt = `
-You are an AI assistant that answers questions ONLY using the provided document context.
+    const prompt = `You are an AI assistant that answers questions ONLY using the provided document context.
 If the answer is not clearly in the context, say "I couldn't find that in the documents."
 
 Question:
@@ -97,49 +97,13 @@ ${contextText}
 Instructions:
 - Answer in clear, concise sentences.
 - Do NOT guess beyond the context.
-- If possible, mention which source numbers you used.
-`;
+- If possible, mention which source numbers you used.`;
 
-    // 3) Call OpenRouter Chat API
-    const modelId = "amazon/nova-2-lite-v1:free"; // or any other free model you enabled
-
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
-        // OpenRouter recommends these:
-        "HTTP-Referer": "http://localhost:3000", // change if deployed
-        "X-Title": "DocIntel RAG App",
-      },
-      body: JSON.stringify({
-        model: modelId,
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a helpful assistant for question answering over user-uploaded documents.",
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenRouter error:", response.status, errorText);
-      return res.status(500).json({
-        message: "OpenRouter request failed",
-        error: `Status ${response.status}: ${errorText}`,
-      });
-    }
-
-    const data = await response.json();
+    // 3) Call Gemini 2.0 Flash
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const geminiResponse = await model.generateContent(prompt);
     const answer =
-      data.choices?.[0]?.message?.content ||
+      geminiResponse.response.text() ||
       "I couldn't generate an answer from the documents.";
 
     // 4) Prepare sources for UI
