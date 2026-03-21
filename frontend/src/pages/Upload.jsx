@@ -162,6 +162,7 @@ function Upload() {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const createNewFolder = () => {
     if (folderName.trim()) {
       const id = folderName.toLowerCase().replace(/\s+/g, '-');
